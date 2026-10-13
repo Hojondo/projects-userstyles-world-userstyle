@@ -1,0 +1,160 @@
+/* ==UserStyle==
+@name         zhihu 超精简 collapse 自用
+@version      20250528.06.52
+@namespace    https://github.com/Hojondo/projects-userstyles-world-userstyle
+@description  知乎 收缩回答框，隐藏侧边栏，隐藏广告，隐藏无用信息，精简界面，提升内容查找效率
+@author       Hojondo
+@license      No License
+==/UserStyle== */
+
+@-moz-document domain("zhihu.com") {
+    .Sticky.AppHeader.is-fixed {
+        top: -45px !important;
+        -moz-transition: top 200ms ease-out 500ms;
+        -webkit-transition: top 200ms ease-out 500ms;
+        transition: top 200ms ease-out 500ms;
+    }
+
+    .Sticky.AppHeader:hover {
+        top: 0 !important;
+        -moz-transition-delay: 0s;
+        -webkit-transition-delay: 0s;
+        transition-delay: 0s;
+    }
+
+    @supports ((-webkit-backdrop-filter:blur(20px)) or (backdrop-filter:blur(20px))) {
+        .Sticky.AppHeader:hover {
+            -webkit-filter: none;
+            filter: none
+        }
+    }
+
+    .GlobalSideBar-categoryList,
+    .GlobalSideBar-navList,
+    .Question-sideColumn {
+        display: none !important;
+    }
+
+    .TopstoryMain,
+    .Topstory-mainColumn,
+    .Question-main>div:first-child {
+        width: 100%;
+        min-height: 100vh;
+    }
+
+    .Topstory>*:first-child:not(.Topstory-container),
+    .Topstory-mainColumn>*:first-child:not(.Topstory-mainColumnCard) {
+        display: none;
+    }
+
+    .Topstory-container {
+        width: unset;
+    }
+
+    .Topstory-container section.HotItem:nth-child(odd) {
+        background: #eaffee;
+    }
+
+    .Topstory-container .RichContent-cover,
+    .Topstory-container .HotItem-img,
+    .Topstory-container .HotItem-label,
+    .Topstory-container .HotItem-metrics,
+    .Topstory-container .TopstoryItem--advertCard {
+        display: none;
+    }
+
+    .Topstory-container .HotItem-metrics--bottom {
+        bottom: 0;
+    }
+
+    .Topstory-mainColumn+* {
+        display: none;
+    }
+
+    .Search-container #SearchMain {
+        width: 100%;
+    }
+
+    .Search-container #SearchMain+div {
+        display: none;
+    }
+
+    .Footer {
+        display: none;
+    }
+
+
+    /* -- */
+    .Question-mainColumn {
+        width: 100%;
+    }
+
+    .AppHeader.is-hidden {
+        display: none;
+    }
+
+    .Reward {
+        display: none;
+    }
+
+    .AuthorInfo {
+        max-width: unset;
+    }
+
+    .RichContent-inner {
+        max-height: 70vh;
+        overflow-y: auto !important;
+        /*     background: #C7EDCC55; */
+        background: #eaffee;
+    }
+
+    .RichContent-inner img {
+        width: 50px !important;
+        margin-left: 0 !important;
+    }
+
+    .RichContent-inner p {
+        margin: 0.4em 0;
+    }
+
+    .RichContent-inner b {
+        color: #eb6f92;
+    }
+
+    .RichContent-inner div:has(> img)+figcaption {
+        margin-top: 0;
+        text-align: left;
+        padding: 0;
+    }
+
+    .RichContent-inner .GifPlayer img {
+        width: unset;
+        margin-left: inherit !important;
+    }
+
+    .ztext-empty-paragraph {
+        display: none;
+    }
+
+    .List-item+.Pc-word,
+    .List-item+.Pc-word-new {
+        display: none;
+    }
+
+    /* -- comment part -- */
+    .Modal-content img.Avatar {
+        display: none !important;
+    }
+
+    .Modal-content>div>div>div>div[data-id]:nth-child(odd) {
+        background: #eaffee;
+    }
+
+    span[data-focus-scope-start]+div>div:last-child {
+        width: var(--app-width);
+    }
+
+    .ContentItem-meta>:not(:first-child) {
+        display: none;
+    }
+}
