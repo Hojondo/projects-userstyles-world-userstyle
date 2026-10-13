@@ -1,0 +1,132 @@
+name: build_release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build_release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Check for release branch
+        id: release_branch
+        run: |
+          if git ls-remote --exit-code --heads origin refs/heads/release >/dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            status=$?
+            if [[ "$status" -eq 2 ]]; then
+              echo "exists=false" >> "$GITHUB_OUTPUT"
+            else
+              exit "$status"
+            fi
+          fi
+
+      - uses: actions/checkout@v7
+        if: ${{ steps.release_branch.outputs.exists == 'true' }}
+        with:
+          ref: release
+          path: release
+          fetch-depth: 0
+
+      - uses: actions/checkout@v7
+        if: ${{ steps.release_branch.outputs.exists == 'false' }}
+        with:
+          ref: ${{ github.sha }}
+          path: release
+          fetch-depth: 0
+
+      - name: Copy changed UserStyles and update versions
+        id: update
+        env:
+          PUSH_BEFORE: ${{ github.event.before }}
+          PUSH_SHA: ${{ github.sha }}
+        run: |
+          python3 - <<'PY'
+          from datetime import datetime, timezone
+          from pathlib import Path
+          import os
+          import re
+          import subprocess
+
+          changed = subprocess.run(
+              [
+                  "git", "diff", "--name-only", "--diff-filter=ACMRTD", "-z",
+                  "--no-renames",
+                  os.environ["PUSH_BEFORE"], os.environ["PUSH_SHA"],
+                  "--", "*.user.css",
+              ],
+              check=True,
+              capture_output=True,
+          ).stdout.split(b"\0")
+          files = [Path(os.fsdecode(path)) for path in changed if path]
+
+          if not files:
+              print("No changed UserStyle files; nothing to update.")
+              with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+                  output.write("has_changes=false\n")
+              raise SystemExit(0)
+
+          version = datetime.now(timezone.utc).strftime("%Y%m%d.%H.%M")
+          for file in files:
+              destination = Path("release") / file
+              if not file.is_file():
+                  destination.unlink(missing_ok=True)
+                  continue
+
+              destination.parent.mkdir(parents=True, exist_ok=True)
+              destination.write_bytes(file.read_bytes())
+
+              with destination.open(encoding="utf-8", newline="") as source:
+                  content = source.read()
+              updated, count = re.subn(
+                  r"(?m)^@version[ \t]+[^\r\n]*(\r?)$",
+                  lambda match: f"@version      {version}{match.group(1)}",
+                  content,
+              )
+              if count != 1:
+                  raise SystemExit(
+                      f"{destination}: expected one @version line, found {count}"
+                  )
+              with destination.open("w", encoding="utf-8", newline="") as target:
+                  target.write(updated)
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"has_changes=true\nversion={version}\n")
+          PY
+
+      - name: Create release commit
+        id: commit
+        if: ${{ steps.update.outputs.has_changes == 'true' }}
+        working-directory: release
+        env:
+          VERSION: ${{ steps.update.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+
+          if git diff --cached --quiet; then
+            echo "No release changes to commit."
+            echo "created=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git commit -m "chore: update UserStyle version to $VERSION"
+          echo "created=true" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push release changes
+        if: ${{ steps.commit.outputs.created == 'true' }}
+        uses: ad-m/github-push-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: release
+          directory: release

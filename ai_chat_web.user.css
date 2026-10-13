@@ -1,0 +1,234 @@
+/* ==UserStyle==
+@name         AI Chat - Highlight Q&A & fold Answers
+@version      xxxxxxxx.xx.xx
+@namespace    https://github.com/Hojondo/projects-userstyles-world-userstyle
+@description  为DeepSeek, Grok, ChatGPT,Claude, Gemini, Kimi, qwen, doubao 等AI聊天界面高亮问答内容，支持折叠回答，提升内容查找效率
+@author       hojondo
+@license      MIT
+@supportURL   https://github.com/Hojondo/projects-userstyles-world-userstyle/issues
+==/UserStyle== */
+@-moz-document domain("grok.com"),
+url-prefix("https://chat.deepseek.com/a/chat"),
+domain("chatgpt.com"),
+url-prefix("https://claude.ai/chat"),
+url-prefix("https://gemini.google.com"),
+regexp(".*\.kimi\..*/chat/.*"),
+regexp(".*\.qwen\.ai/.*"),
+domain("doubao.com") {
+    :root {
+        --bg-color: #C7EDCC;
+        --text-color: black;
+        --box-shadow: #00000020 0 2px 20px 0px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --bg-color: #ed5a65;
+            --text-color: white;
+            --box-shadow: #ffffff66 0 2px 20px 0px;
+        }
+    }
+}
+
+@-moz-document domain("grok.com") {
+
+    /* Grok */
+    .group.items-end .message-bubble {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+    }
+
+    .group.items-start>div:first-child {
+        margin-bottom: 1em;
+        max-height: 80vh;
+        overflow: auto;
+        box-shadow: var(--box-shadow);
+        padding: 0 3em;
+    }
+}
+
+@-moz-document url-prefix("https://chat.deepseek.com/a/chat") {
+
+    /* Deepseek */
+    /* --Deprecated-- */
+    div[class^="dad"]>div:nth-child(odd)>div:first-child>div {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+    }
+
+    div[class^="dad"]>div:nth-child(even) {
+        margin-bottom: 1em;
+        max-height: 75vh;
+        overflow: auto;
+        box-shadow: var(--box-shadow);
+        padding: 0 3em;
+    }
+
+    /* --active-- */
+    :root {
+        --message-list-max-width: 80%;
+    }
+
+    .ds-assistant-message-main-content {
+        margin-bottom: 1em;
+        max-height: 75vh;
+        overflow: auto;
+        box-shadow: var(--box-shadow);
+        padding: 0 3em;
+    }
+}
+
+@-moz-document domain("chatgpt.com") {
+
+    /* chatgpt */
+    /* --deprecated-- */
+    #main section div[data-message-author-role="user"] .user-message-bubble-color {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+    }
+
+    #main [data-conversation-screenshot-content] {
+        --thread-content-max-width: unset !important;
+        max-width: unset !important;
+    }
+
+    #main section div[data-message-author-role="assistant"]>div>div {
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: var(--box-shadow);
+        padding: 0 1em;
+        border-radius: 1rem;
+
+    }
+
+    /* --active-- */
+    [data-conversation-role]+div [data-markdown-text-style] {
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: var(--box-shadow);
+        padding: 0 50px;
+    }
+
+    div[class^="TableFrame"] {
+        --table-thread-gutter: unset;
+    }
+
+    body {
+        --thread-content-max-width: 80% !important;
+    }
+}
+
+@-moz-document url-prefix("https://claude.ai/chat") {
+
+    /* Claude */
+    div[data-test-render-count] .items-end>.group {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+    }
+
+    .\[content-visibility\:auto\] {
+        content-visibility: visible;
+    }
+
+    div[data-test-render-count]>.group>.contents>.group.relative {
+        max-height: 70vh;
+        overflow: auto;
+        box-shadow: var(--box-shadow);
+    }
+}
+
+@-moz-document url-prefix("https://gemini.google.com") {
+
+    /* gemini */
+    user-query .user-query-bubble-with-background {
+        background: var(--bg-color) !important;
+        color: var(--text-color);
+    }
+
+    model-response {
+        max-height: 70vh;
+        overflow-y: auto;
+        box-shadow: var(--box-shadow);
+        padding: 0 1em;
+        width: 90vw;
+    }
+}
+
+@-moz-document regexp(".*\.kimi\..*/chat/.*") {
+
+    /* kimi */
+    .chat-content-item-user {
+        margin-top: 1rem;
+    }
+
+    .chat-content-item-user .segment-content {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+    }
+
+    .chat-content-item-assistant {
+        max-height: 75vh;
+        overflow-y: auto;
+        box-shadow: var(--box-shadow);
+        padding: 0 1em;
+        width: 90vw;
+    }
+}
+
+@-moz-document regexp(".*\.qwen\.ai/.*") {
+
+    /* qwen */
+    div#chat-message-container>.qwen-chat-message:nth-child(odd) {
+        margin-top: 1rem;
+    }
+
+    .chat-user-message-container .chat-user-message-wrapper .chat-user-message {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+    }
+
+    div#chat-message-container>.qwen-chat-message:nth-child(even),
+    .qwen-chat-message-assistant {
+        max-height: 70vh;
+        overflow-y: auto;
+        box-shadow: var(--box-shadow);
+        padding: 0 1em;
+    }
+
+    div#chat-message-container+div {
+        padding-bottom: 1rem;
+    }
+}
+
+@-moz-document regexp(".*\.doubao\..*/chat/.*") {
+
+    /* doubao */
+
+
+    [data-testid="message-list"] [class^="inter"]>[class^="container"]:nth-child(odd) [data-testid="message_content"]>div,
+    .scroller_content .justify-end[data-message-id]>div,
+    [class^="scroll-view"] .justify-end[data-message-id]>div {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+    }
+
+    [data-testid="message-list"] [class^="inter"]>[class^="container"]:nth-child(even),
+    [class^="scroll-view"] [class^="inter"]>[class^="container"]:nth-child(even) {
+        margin-bottom: 1em;
+    }
+
+    [data-testid="message-list"] [class^="inter"]>[class^="container"]:nth-child(even) [class*="inner-item"],
+
+
+    .scroller_content .relative[data-message-id]>div,
+    [class^="scroll-view"] .relative[data-message-id]>div {
+        max-height: 75vh;
+        overflow-y: auto;
+        box-shadow: var(--box-shadow);
+        padding: 1em;
+    }
+
+    #chat-route-layout {
+        --content-max-width: 80% !important;
+    }
+}
