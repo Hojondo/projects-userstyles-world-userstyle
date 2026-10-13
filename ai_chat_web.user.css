@@ -1,5 +1,5 @@
 /* ==UserStyle==
-@name         AI Chat - Highlight Q&A & fold Answers
+@name         AI Chat - Highlight & fold Answers
 @version      20261010.xx.xx
 @namespace    https://github.com/Hojondo/projects-userstyles-world-userstyle
 @description  为DeepSeek, Grok, ChatGPT,Claude, Gemini, Kimi, qwen, doubao 等AI聊天界面高亮问答内容，支持折叠回答，提升内容查找效率
@@ -203,8 +203,6 @@ domain("doubao.com") {
 @-moz-document regexp(".*\.doubao\..*/chat/.*") {
 
     /* doubao */
-
-
     [data-testid="message-list"] [class^="inter"]>[class^="container"]:nth-child(odd) [data-testid="message_content"]>div,
     .scroller_content .justify-end[data-message-id]>div,
     [class^="scroll-view"] .justify-end[data-message-id]>div {
