@@ -128,5 +128,6 @@ jobs:
         uses: ad-m/github-push-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: release
+          branch: HEAD:refs/heads/release
           directory: release
+          force: true
