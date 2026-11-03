@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name         zhihu 超精简 collapse 自用
-@version      20261013.07.20
+@version      20261103.05.16
 @namespace    https://github.com/Hojondo/projects-userstyles-world-userstyle
 @description  知乎 收缩回答框，隐藏侧边栏，隐藏广告，隐藏无用信息，精简界面，提升内容查找效率
 @author       Hojondo
@@ -117,7 +117,7 @@
         margin: 0.4em 0;
     }
 
-    .RichContent-inner b {
+    .RichContent-inner b, .Post-content b {
         color: #eb6f92;
     }
 
