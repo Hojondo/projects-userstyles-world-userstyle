@@ -117,7 +117,7 @@
         margin: 0.4em 0;
     }
 
-    .RichContent-inner b {
+    .RichContent-inner b, .Post-content b {
         color: #eb6f92;
     }
 
