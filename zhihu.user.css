@@ -34,6 +34,9 @@
     .Question-sideColumn {
         display: none !important;
     }
+    div:has(+ .Question-sideColumn) {
+        width: 100%!important;
+    }
 
     .TopstoryMain,
     .Topstory-mainColumn,
@@ -72,7 +75,7 @@
     }
 
     .Search-container #SearchMain {
-        width: 100%;
+        width: 100%!important;
     }
 
     .Search-container #SearchMain+div {
@@ -86,7 +89,7 @@
 
     /* -- */
     .Question-mainColumn {
-        width: 100%;
+        width: 100%!important;
     }
 
     .AppHeader.is-hidden {
