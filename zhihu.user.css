@@ -34,8 +34,9 @@
     .Question-sideColumn {
         display: none !important;
     }
+
     div:has(+ .Question-sideColumn) {
-        width: 100%!important;
+        width: 100% !important;
     }
 
     .TopstoryMain,
@@ -75,7 +76,7 @@
     }
 
     .Search-container #SearchMain {
-        width: 100%!important;
+        width: 100% !important;
     }
 
     .Search-container #SearchMain+div {
@@ -89,7 +90,7 @@
 
     /* -- */
     .Question-mainColumn {
-        width: 100%!important;
+        width: 100% !important;
     }
 
     .AppHeader.is-hidden {
@@ -120,7 +121,8 @@
         margin: 0.4em 0;
     }
 
-    .RichContent-inner b, .Post-content b {
+    .RichContent-inner b,
+    .Post-content b {
         color: #eb6f92;
     }
 
@@ -158,6 +160,14 @@
     }
 
     .ContentItem-meta>:not(:first-child) {
+        display: none;
+    }
+
+    :root {
+        --container-main-column-width: calc(100vw - var(--sidenav-width) - 80px - var(--container-main-column-padding-x) * 2);
+    }
+
+    div:has(main.App-main)+aside {
         display: none;
     }
 }
