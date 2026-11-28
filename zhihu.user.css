@@ -1,6 +1,6 @@
 /* ==UserStyle==
 @name         zhihu 极简主义
-@version      20261128.03.27
+@version      20261128.03.31
 @namespace    https://github.com/Hojondo/projects-userstyles-world-userstyle
 @description  知乎 紧凑高密度强控 持续维护：收缩回答框，隐藏侧边栏，隐藏广告，隐藏无用信息，精简界面，压缩颗粒度;推荐配合 https://greasyfork.org/zh-CN/scripts/536151-zhihu-force-comment-modal 食用
 @author       Hojondo
@@ -63,7 +63,8 @@
     .Topstory-container .HotItem-img,
     .Topstory-container .HotItem-label,
     .Topstory-container .HotItem-metrics,
-    .Topstory-container .TopstoryItem--advertCard {
+    .Topstory-container .TopstoryItem--advertCard,
+    .pc-article-answer-text-chain {
         display: none;
     }
 
