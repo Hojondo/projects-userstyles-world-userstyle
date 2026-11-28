@@ -165,9 +165,10 @@
 
     :root {
         --container-main-column-width: calc(100vw - var(--sidenav-width) - 80px - var(--container-main-column-padding-x) * 2);
+        --right-sidebar-width: 0;
     }
 
-    div:has(main.App-main)+aside {
+    div:has(main.App-main)+aside, div:has(.Recommendations-Main)+div {
         display: none;
     }
 }
