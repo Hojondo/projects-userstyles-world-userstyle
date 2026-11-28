@@ -63,7 +63,8 @@
     .Topstory-container .HotItem-img,
     .Topstory-container .HotItem-label,
     .Topstory-container .HotItem-metrics,
-    .Topstory-container .TopstoryItem--advertCard {
+    .Topstory-container .TopstoryItem--advertCard,
+    .pc-article-answer-text-chain {
         display: none;
     }
 
